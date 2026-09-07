@@ -33,13 +33,13 @@ A high-performance, cinematic personal developer portfolio built with smooth phy
        └───────────────────────────┬────────────────────────────┘
                                    │  (Curtain Layer Overlap)
                                    ▼
-       ┌────────────────────────────────────────────────────────┐
-       │   [ ABOUT -> SKILLS DEPTH CURTAIN MASK ]               │
-       │   • About Section stays pinned at top: 0               │
-       │   • Skills Section (z-30) slides up over About bottom  │
-       │   • Zero-Gap Connected Ribbon + Initial Blur Reveal    │
-       │   • Hover Pause + Sleek Metallic Shine Shimmer         │
-       └────────────────────────────────────────────────────────┘
+        ┌────────────────────────────────────────────────────────┐
+        │   [ ABOUT -> SKILLS DEPTH CURTAIN MASK ]               │
+        │   • About Section stays fixed & settled (100vh-220vh)  │
+        │   • Skills Section (z-30) slides up over About bottom  │
+        │   • Rapier2D Rust/WASM 120 FPS Physics Collision Arena │
+        │   • Authentic brand SVGs, dark chips & impulse toss    │
+        └────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -52,7 +52,7 @@ A high-performance, cinematic personal developer portfolio built with smooth phy
 | **Smooth Scrolling** | **Lenis** engine calibrated to `1.8s` duration and `0.75` wheel multiplier, piped directly into the GSAP ticker (`lagSmoothing: 0`). |
 | **Starfield Particles** | Top-level HTML5 canvas rendering 65 drifting stars with harmonic twinkle oscillations and wrapping bounds (`StarField.tsx`). |
 | **Interactive Stat Capsules** | Frosted glass pills for *Experience (1+ yrs)*, *Specialty (Full Stack)*, and *Focus (Performance & UX)* with glow blooms on hover. |
-| **Connected Skills Ribbon** | Dual-track infinite marquee with zero gaps between cards, 5px border radius, authentic brand colors, and hover light beam sweeps. |
+| **Skills Physics Arena** | Zero-lag `@dimforge/rapier2d-compat` Rust/WASM simulation on HTML5 Canvas 2D with authentic SVGs, category tags, and pointer toss physics. |
 
 ---
 

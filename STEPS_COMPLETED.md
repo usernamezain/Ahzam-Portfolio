@@ -47,8 +47,9 @@ src/
 ### Step 3: Continuous Hero-to-About Scroll Scrub Transition
 - **File:** `src/components/HeroAboutExperience.tsx`
 - **Logic:**
-  - Built inside a `trackRef` wrapper (`h-[200vh]`) containing a `sticky top-0 h-[100dvh] z-10` container.
-  - GSAP ScrollTrigger scrubs across the first 100vh (`start: "top top", end: "+=100%"`):
+  - The visual stage is rendered as a permanently fixed container (`fixed inset-0 w-full h-[100dvh] z-10`).
+  - A scroll spacer (`spacerRef`, `h-[100vh]`) in normal page flow drives the GSAP ScrollTrigger scrub (`start: "top top", end: "bottom top"`).
+  - During the spacer scroll:
     1. **Hero Text**: Fades and moves up (`y: -45, opacity: 0`).
     2. **3D Character Image**: Glides across from Right Col to Left Col (`xPercent: -100` on Desktop, `scale: 0.7, yPercent: -50` on Mobile).
     3. **About Content**: Container fades in (`opacity: 1, pointerEvents: 'auto'`), triggering staggered reveal of bio text, creative stat capsules, and bottom centered action buttons (`View Projects`, `Get in Touch`).
@@ -58,23 +59,28 @@ src/
     - `"Professional Full Stack"`
   - **Creative Frosted Stat Capsules**: Replaced generic boxes with frosted glass capsules for `Experience (1+ years)`, `Specialty (Full Stack)`, and `Focus (Performance & UX)`.
 
-### Step 4: Layered Curtain Depth Scroll (About $\rightarrow$ Skills)
+### Step 4: Calibrated Sequential Queue & Fixed About Stage
 - **Files:** `src/components/HeroAboutExperience.tsx` + `src/components/SkillsSection.tsx`
 - **Logic:**
-  - As scroll moves past the About reveal (from 100vh to 200vh), the About section **does not scroll or move away**—it stays fixed at `top: 0` (`sticky top-0 z-10`).
-  - `SkillsSection` (`relative z-30 bg-[#08090C] border-t border-white/[0.12] shadow-[0_-30px_90px_rgba(0,0,0,0.98)]`) slides upwards over the bottom of the About section without pause or break, creating a physical 3D card/sheet depth masking effect.
+  - **Phase 1 (Scroll `0` to `100vh`)**: Hero transitions seamlessly into About (text fades up, 3D character glides to left, bio & capsules stagger in).
+  - **Phase 2 (Scroll `100vh` to `220vh` - Rest & Reading Window)**: The About section remains 100% settled and fixed in place (`fixed inset-0 z-10`). The user has full time to read the bio and interact without anything colliding.
+  - **Phase 3 (Scroll `> 220vh`)**: Only after the user finishes reading About and scrolls down further, the Skills section (`relative z-30 bg-[#08090C]`) smoothly slides up over the fixed About background.
 
-### Step 5: Infinite Connected Skills Ribbon (~60vh)
+### Step 5: High-Performance 120 FPS HTML5 Canvas Physics Sandbox (@dimforge/rapier2d-compat)
 - **File:** `src/components/SkillsSection.tsx`
 - **Logic:**
-  - **Zero-Gap Connected Tiles**: Configured `gap-0` between cards with `-ml-[1px]` borders, creating a cohesive framework strip.
-  - **Exact Uniform Dimensions**: Fixed `w-[180px] sm:w-[200px]` and `h-[68px] sm:h-[72px]`.
-  - **5px Border Radius**: Clean `rounded-[5px]` on all cards.
-  - **Authentic Brand Colors**: Real colors on all 15 framework icons (HTML5, CSS3, JS, TS, React, Next.js, Vue, Angular, GSAP, Lenis, Spline 3D, Framer Motion, Anime.js, Astro.js, Tailwind CSS).
-  - **Hover Freeze & Shine**:
-    - Pauses marquee animation on hover (`hover:[animation-play-state:paused]`).
-    - Sweeps an angled metallic light beam across the hovered card (`-rotate-45 translate-x-[-160%] group-hover:translate-x-[160%]`).
-  - **Initial Motion Blur Reveal**: GSAP ScrollTrigger animates cards from `filter: blur(12px), opacity: 0.2, y: 20` to `filter: blur(0px), opacity: 1, y: 0` on entrance.
+  - **Zero-Lag Rust WASM Physics Engine (`@dimforge/rapier2d-compat`)**:
+    - Replaced JavaScript-based physics with Rust compiled to WebAssembly via `@dimforge/rapier2d-compat`.
+    - Initialized asynchronous WASM module (`await RAPIER.init()`) with hardware-accelerated world step calculations (`world.step()`).
+    - Dynamic rounded rigid cuboids (`RAPIER.ColliderDesc.roundCuboid`) with `restitution: 0.65` (elastic bounce), `friction: 0.3`, linear damping (`0.65`), and angular damping (`0.85`).
+    - Kinematic pointer tracking on `mousedown`/`touchstart` and release toss velocity impulses via `setLinvel()`.
+  - **Pure HTML5 Canvas 2D Rendering Engine**:
+    - Hardware-accelerated canvas rendering with Device Pixel Ratio (DPR) retina scaling.
+    - Pre-compiled SVG vector paths (`Path2D`) for zero-CPU icon rendering on every 120 FPS animation frame.
+  - **Compact, Polished Frame & Design**:
+    - Centered compact arena box (`max-w-[820px] h-[360px] sm:h-[400px]`).
+    - Dark rounded chip styling (`#12151E`) with subtle 1px border outlines, brand-colored accent bars, authentic SVGs, and bold typography.
+    - Shine sweep effect and marquee sliders removed per user specifications.
 
 ---
 

@@ -60,7 +60,7 @@ function TypewriterEyebrow() {
 }
 
 export default function HeroAboutExperience() {
-  const trackRef = useRef<HTMLDivElement>(null);
+  const spacerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const heroTextRef = useRef<HTMLDivElement>(null);
   const characterRef = useRef<HTMLDivElement>(null);
@@ -133,12 +133,12 @@ export default function HeroAboutExperience() {
         { opacity: 0, y: 30, x: isDesktop ? 15 : 0 }
       );
 
-      // Master ScrollTrigger timeline linking Hero to About (scrubs across 100vh of scroll)
+      // Master ScrollTrigger timeline linking Hero to About (scrubs during spacer scroll)
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: trackRef.current,
+          trigger: spacerRef.current,
           start: "top top",
-          end: "+=100%",
+          end: "bottom top",
           scrub: 0.8,
           invalidateOnRefresh: true,
         },
@@ -149,53 +149,53 @@ export default function HeroAboutExperience() {
         // DESKTOP: 50/50 Horizontal Glide (Right -> Left)
         // ==========================================
         tl
-          // 1. Hero text fades and slides up
+          // 1. Hero text fades and slides up (Phase 1: 0 -> 0.2)
           .to(
             heroTextRef.current,
             {
               opacity: 0,
-              y: -45,
+              y: -40,
               pointerEvents: "none",
               ease: "power2.inOut",
-              duration: 0.4,
+              duration: 0.25,
             },
             0
           )
-          // 2. Character image glides from Right (col 2) across to Left (col 1)
+          // 2. Character image glides from Right (col 2) across to Left (col 1) (0.05 -> 0.45)
           .to(
             characterRef.current,
             {
               xPercent: -100,
               ease: "power1.inOut",
-              duration: 0.8,
+              duration: 0.4,
             },
             0.05
           )
-          // 3. About text parent container fades in and enables pointer events
+          // 3. About text parent container fades in and enables pointer events (0.2 -> 0.45)
           .to(
             aboutTextRef.current,
             {
               opacity: 1,
               pointerEvents: "auto",
-              duration: 0.35,
+              duration: 0.25,
               ease: "power2.out",
             },
-            0.25
+            0.2
           )
-          // 4. Staggered reveal of About text and stat items
+          // 4. Staggered reveal of About text and stat items (0.25 -> 0.5)
           .to(
             aboutTextRef.current?.querySelectorAll(".about-stagger-item") || [],
             {
               opacity: 1,
               y: 0,
               x: 0,
-              stagger: 0.08,
+              stagger: 0.05,
               ease: "power2.out",
-              duration: 0.5,
+              duration: 0.3,
             },
-            0.3
+            0.25
           )
-          // 5. Reveal bottom action buttons in the center
+          // 5. Reveal bottom action buttons in the center (0.4 -> 0.55)
           .to(
             aboutButtonsRef.current,
             {
@@ -204,9 +204,18 @@ export default function HeroAboutExperience() {
               y: 0,
               scale: 1,
               ease: "power2.out",
-              duration: 0.4,
+              duration: 0.25,
             },
-            0.6
+            0.4
+          )
+          // 6. Generous Viewing & Reading Hold Buffer (Phase 2: 0.55 -> 1.25)
+          // The About section remains 100% settled and visible for the user to read!
+          .to(
+            {},
+            {
+              duration: 0.7,
+            },
+            0.55
           );
       } else {
         // ==========================================
@@ -217,20 +226,20 @@ export default function HeroAboutExperience() {
             heroTextRef.current,
             {
               opacity: 0,
-              y: -30,
+              y: -25,
               pointerEvents: "none",
               ease: "power2.inOut",
-              duration: 0.35,
+              duration: 0.25,
             },
             0
           )
           .to(
             characterRef.current,
             {
-              scale: 0.7,
-              yPercent: -50,
+              scale: 0.75,
+              yPercent: -45,
               ease: "power1.inOut",
-              duration: 0.65,
+              duration: 0.4,
             },
             0.05
           )
@@ -239,21 +248,21 @@ export default function HeroAboutExperience() {
             {
               opacity: 1,
               pointerEvents: "auto",
-              duration: 0.35,
+              duration: 0.25,
               ease: "power2.out",
             },
-            0.25
+            0.2
           )
           .to(
             aboutTextRef.current?.querySelectorAll(".about-stagger-item") || [],
             {
               opacity: 1,
               y: 0,
-              stagger: 0.06,
+              stagger: 0.04,
               ease: "power2.out",
-              duration: 0.5,
+              duration: 0.3,
             },
-            0.3
+            0.25
           )
           .to(
             aboutButtonsRef.current,
@@ -262,9 +271,17 @@ export default function HeroAboutExperience() {
               pointerEvents: "auto",
               y: 0,
               ease: "power2.out",
-              duration: 0.35,
+              duration: 0.25,
             },
-            0.6
+            0.4
+          )
+          // Mobile Viewing Hold Buffer
+          .to(
+            {},
+            {
+              duration: 0.7,
+            },
+            0.55
           );
       }
     }, containerRef);
@@ -283,10 +300,11 @@ export default function HeroAboutExperience() {
   }, []);
 
   return (
-    <div ref={trackRef} className="relative w-full h-[200vh]">
+    <>
+      {/* Fixed Visual Stage (Hero & About fixed in place with full background & character) */}
       <section
         ref={containerRef}
-        className="sticky top-0 h-[100dvh] w-full overflow-hidden bg-[#08090C] z-10"
+        className="fixed inset-0 w-full h-[100dvh] overflow-hidden bg-[#08090C] z-10 pointer-events-auto"
         aria-label="Hero and About Experience"
       >
       {/* Decorative radial glows following cursor subtly (10-20px) */}
@@ -613,6 +631,13 @@ export default function HeroAboutExperience() {
         </div>
       </div>
     </section>
-  </div>
+
+    {/* Scroll Spacer driving the Hero-to-About scrub transition & generous reading rest window */}
+    <div
+      ref={spacerRef}
+      className="relative w-full h-[220vh] pointer-events-none"
+      aria-hidden="true"
+    />
+  </>
   );
 }
