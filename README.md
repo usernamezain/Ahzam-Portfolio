@@ -63,13 +63,13 @@ A high-performance, cinematic personal developer portfolio built with smooth phy
 ```
 
 ### ✅ Completed Milestones
-- [x] **Lenis Smooth Scroll Engine**: Glitch-free smooth scrolling synced with GSAP ScrollTrigger.
-- [x] **Atmospheric Background Layers**: Interactive starfield particle canvas and 10–20px mouse-following radial glow parallax.
+- [x] **Lenis Smooth Scroll Engine**: Glitch-free smooth scrolling synced with GSAP ScrollTrigger (`1.8s` duration, `0.75` multiplier, `lagSmoothing: 0`).
+- [x] **Atmospheric Background Layers**: Interactive starfield particle canvas (65 stars) and 10–20px mouse-following radial glow parallax.
 - [x] **Hero Section**: Dynamic 3-phrase typewriter eyebrow, two-tone typography gradients, and responsive layout.
 - [x] **Seamless Hero-to-About Transition**: 100dvh scroll-scrubbed translation of the 3D character from right to left column.
 - [x] **About Section**: 50/50 split layout, staggered text reveals, frosted stat capsules, and centered bottom CTAs.
-- [x] **3D Depth Curtain Transition**: About stays pinned in place while the Skills section floats up and masks over it.
-- [x] **Endless Skills Ribbon**: Dual-track marquee with zero gaps, uniform dimensions, initial motion blur reveal, and metallic hover shine.
+- [x] **3D Depth Curtain Transition**: About stays settled & fixed (`100vh` to `220vh`) while the Skills section floats up and masks over it.
+- [x] **Rapier2D Rust/WASM Physics Collision Arena**: Locked 120 FPS HTML5 Canvas 2D physics simulation with authentic SVGs, dark multi-stop interior gradients, and interactive mouse/touch drag and impulse toss.
 
 ### ⏳ Upcoming Sections
 - [ ] **Featured Projects Showcase**: 3D interactive tilt cards with live preview links and tech stack badges.
@@ -92,7 +92,7 @@ portfolio/
 │   │   └── page.tsx            # Main page composition
 │   └── components/
 │       ├── HeroAboutExperience.tsx # Pinned Hero-to-About timeline + sticky curtain
-│       ├── SkillsSection.tsx   # Infinite connected skills ribbon with motion blur
+│       ├── SkillsSection.tsx   # Rapier2D Rust/WASM physics collision arena (120 FPS Canvas)
 │       ├── SmoothScrollProvider.tsx # Lenis + GSAP ticker synchronization
 │       ├── StarField.tsx       # Floating ambient starfield particle canvas
 │       └── Navbar.tsx          # Fixed glassmorphic navigation header
